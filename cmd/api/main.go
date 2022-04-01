@@ -65,6 +65,7 @@ func run(cfg config) error {
 	if err != nil {
 		return err
 	}
+	defer logger.Sync()
 
 	return nil
 }
