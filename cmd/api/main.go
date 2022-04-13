@@ -27,7 +27,7 @@ type config struct {
 	}
 }
 
-type server struct {
+type application struct {
 	config config
 	logger *zap.Logger
 	wg     sync.WaitGroup
