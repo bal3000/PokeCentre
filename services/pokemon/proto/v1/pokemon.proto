@@ -1,0 +1,46 @@
+syntax = "proto3";
+package pokemon;
+
+option go_package = "github.com/bal3000/PokeCentre/services/pokemon/proto/v1/pokemon";
+
+import "google/protobuf/empty.proto";
+
+message Pokemon {
+    int32 id = 1;
+    string name = 2;
+    int32 number = 3;
+    string type = 4;
+    string description = 5;
+}
+
+message PokemonList {
+    repeated Pokemon pokemon = 1;
+}
+
+message GetPokemonRequest {
+    int32 number = 1;
+}
+
+message GetPokemonByTypeRequest {
+    repeated string types = 1;
+}
+
+message DeletePokemonRequest {
+    int32 id = 1;
+}
+
+message AddPokemonRequest {
+    string name = 1;
+    int32 number = 2;
+    string type = 3;
+    string description = 4;
+}
+
+service PokemonService {
+    rpc GetAllPokemon(google.protobuf.Empty) returns (PokemonList);
+    rpc GetPokemon(GetPokemonRequest) returns (Pokemon);
+    rpc GetPokemonByType(GetPokemonByTypeRequest) returns (PokemonList);
+    rpc AddPokemon(AddPokemonRequest) returns (Pokemon);
+    rpc UpdatePokemon(Pokemon) returns (google.protobuf.Empty);
+    rpc DeletePokemon(DeletePokemonRequest) returns (google.protobuf.Empty);
+}
