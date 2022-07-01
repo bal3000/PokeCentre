@@ -1,17 +1,13 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/bal3000/PokeCentre/services/pokemon/proto/v1/pokemon"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	router := gin.Default()
+	server := grpc.NewServer()
+	pokemonService := NewPokemonService()
 
-	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello There")
-	})
-
-	router.Run()
+	pokemon.RegisterPokemonServiceServer(server, pokemonService)
 }
