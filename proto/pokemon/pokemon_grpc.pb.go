@@ -278,5 +278,5 @@ var PokemonService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/v1/pokemon.proto",
+	Metadata: "pokemon.proto",
 }

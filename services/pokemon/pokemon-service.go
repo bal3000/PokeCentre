@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/bal3000/PokeCentre/services/pokemon/proto/v1/pokemon"
+	"github.com/bal3000/PokeCentre/proto/pokemon"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
