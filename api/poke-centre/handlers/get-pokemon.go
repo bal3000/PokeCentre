@@ -1,10 +1,10 @@
-package routes
+package handlers
 
 import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetPokemon(c *gin.Context) {
+func (app *handler) GetPokemon(c *gin.Context) {
 	number := c.Param("number")
 
 	c.JSON(200, number)

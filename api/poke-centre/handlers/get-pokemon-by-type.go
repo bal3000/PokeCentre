@@ -1,8 +1,8 @@
-package routes
+package handlers
 
 import "github.com/gin-gonic/gin"
 
-func GetPokemonByType(c *gin.Context) {
+func (app *handler) GetPokemonByType(c *gin.Context) {
 	var search struct {
 		Types []string
 	}
