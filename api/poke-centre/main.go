@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/bal3000/PokeCentre/api/poke-centre/data"
 	"github.com/bal3000/PokeCentre/api/poke-centre/handlers"
 	"github.com/bal3000/PokeCentre/proto/pokemon"
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis/v9"
 	"google.golang.org/grpc"
 )
 
@@ -39,13 +39,11 @@ func main() {
 	defer pokemonCloser()
 
 	// redis
-	opt, err := redis.ParseURL("redis://default:redispw@localhost:49153")
+	rdb, err := data.CreateRedisClient("redis://default:redispw@localhost:49153")
 	if err != nil {
 		fmt.Println("problem parsing redis connection string:", err)
 		return
 	}
-
-	rdb := redis.NewClient(opt)
 
 	// route handler for all requests
 	handler := handlers.NewHandler(pokemonClient, rdb)
