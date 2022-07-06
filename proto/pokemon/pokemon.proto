@@ -5,12 +5,94 @@ option go_package = "github.com/bal3000/PokeCentre/proto/pokemon";
 
 import "google/protobuf/empty.proto";
 
+message Move {
+    string name = 1;
+    repeated VersionGroupDetails versionGroupDetails = 2;
+}
+
+message VersionGroupDetails {
+    string versionName = 1;
+    string moveLearnMethod = 2;
+    int32 levelLearnedAt = 3;
+}
+
+message Ability {
+    string name = 1;
+    int32 slot = 2;
+    bool isHidden = 3;
+}
+
+message Stat {
+    string name = 1;
+    int32 effort = 2;
+    int32 baseStat = 3;
+}
+
+message Type {
+    int32 id = 1;
+    string name = 2;
+    int32 slot = 3;
+}
+
+message Sprite {
+    string frontDefault = 1;
+    string backDefault = 2;
+    string frontShiny = 3;
+    string backShiny = 4;
+    string frontFemale = 5;
+    string backFemale = 6;
+    string backShinyFemale = 7;
+    string frontShinyFemale = 8;
+}
+
+message Colour {
+    int32 id = 1;
+    string name = 2;
+}
+
+message EggGroup {
+    int32 id = 1;
+    string name = 2;
+}
+
+message EvolvesFromSpecies {
+    int32 id = 1;
+    string name = 2;
+}
+
+message Shape {
+    int32 id = 1;
+    string name = 2;
+}
+
+message Species {
+    int32 baseHappiness = 1;
+    int32 captureRate = 2;
+    Colour color = 3;
+    repeated EggGroup eggGroups = 4;
+    int32 evolutionChainId = 5;
+    EvolvesFromSpecies evolvesFromSpecies = 6;
+    string flavorText = 7;
+    string genus = 8;
+    Shape shape = 9;
+}
+
 message Pokemon {
     int32 id = 1;
     string name = 2;
-    int32 number = 3;
-    string type = 4;
-    string description = 5;
+    bool isDefault = 3;
+    int32 number = 4;
+    repeated Type types = 5;
+    string description = 6;
+    repeated Move moves = 7;
+    repeated Ability abilities = 8;
+    repeated Stat stats = 9;
+    int32 height = 10;
+    int32 weight = 11;
+    int32 baseExperience = 12;
+    int32 order = 13;
+    Sprite sprites = 14;
+    Species species = 15;
 }
 
 message PokemonList {

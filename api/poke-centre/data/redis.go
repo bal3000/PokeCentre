@@ -10,6 +10,10 @@ import (
 	"github.com/go-redis/redis/v9"
 )
 
+type RedisData interface {
+	MarshalBinary() ([]byte, error)
+}
+
 func CreateRedisClient(connectionString string) (*redis.Client, error) {
 	opt, err := redis.ParseURL(connectionString)
 	if err != nil {
@@ -21,7 +25,7 @@ func CreateRedisClient(connectionString string) (*redis.Client, error) {
 	return rdb, nil
 }
 
-func GetOrSetValue[T any](ctx context.Context, client *redis.Client, key string, notExistsFunc func() (T, error)) (T, error) {
+func GetOrSetValue[T RedisData](ctx context.Context, client *redis.Client, key string, notExistsFunc func() (T, error)) (T, error) {
 	tctx, cancel := context.WithTimeout(ctx, 1*time.Second)
 	defer cancel()
 

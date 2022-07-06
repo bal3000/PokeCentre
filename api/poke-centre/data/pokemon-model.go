@@ -31,7 +31,7 @@ func MapProtoToModel(p *pokemon.Pokemon) PokemonModel {
 		Id:          p.Id,
 		Name:        p.Name,
 		Number:      p.Number,
-		Type:        p.Type,
+		Type:        p.Types[0].Name,
 		Description: p.Description,
 	}
 }
