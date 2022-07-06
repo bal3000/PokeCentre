@@ -31,7 +31,6 @@ func GetOrSetValue[T RedisData](ctx context.Context, client *redis.Client, key s
 
 	val, err := client.Get(tctx, key).Result()
 	var result T
-	fmt.Println("val from redis:", val)
 	if err != nil {
 		if err == redis.Nil {
 			value, err := notExistsFunc()
@@ -53,6 +52,7 @@ func GetOrSetValue[T RedisData](ctx context.Context, client *redis.Client, key s
 	if err != nil {
 		return result, err
 	}
+	fmt.Println("Found val from redis")
 
 	return result, nil
 }

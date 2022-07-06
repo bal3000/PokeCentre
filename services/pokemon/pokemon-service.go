@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"sync"
 
 	"github.com/bal3000/PokeCentre/proto/pokemon"
@@ -35,19 +36,8 @@ func (p *PokemonService) GetAllPokemon(context context.Context, _ *emptypb.Empty
 	if err = cur.All(context, &results); err != nil {
 		return nil, err
 	}
-	// for cur.Next(context) {
-	// 	var pokemon pokemon.Pokemon
-	// 	err := cur.Decode(&pokemon)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
 
-	// 	results = append(results, &pokemon)
-	// }
-
-	// if err := cur.Err(); err != nil {
-	// 	return nil, err
-	// }
+	fmt.Printf("Found %d results\n", len(results))
 
 	return &pokemon.PokemonList{
 		Pokemon: results,
@@ -87,6 +77,7 @@ func (p *PokemonService) GetPokemonByType(context context.Context, request *poke
 	if err = cursor.All(context, &results); err != nil {
 		return nil, err
 	}
+	fmt.Printf("Found %d results\n", len(results))
 
 	return &pokemon.PokemonList{Pokemon: pokemons}, nil
 }

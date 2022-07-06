@@ -39,7 +39,7 @@ func main() {
 	defer pokemonCloser()
 
 	// redis
-	rdb, err := data.CreateRedisClient("redis://default:redispw@localhost:49153")
+	rdb, err := data.CreateRedisClient("redis://default:redispw@localhost:49154")
 	if err != nil {
 		fmt.Println("problem parsing redis connection string:", err)
 		return
