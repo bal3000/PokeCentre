@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/bal3000/PokeCentre/proto/pokemon"
+	"github.com/go-redis/redis/v9"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -16,12 +17,14 @@ import (
 type PokemonService struct {
 	mu                sync.Mutex
 	pokemonCollection *mongo.Collection
+	redisClient       *redis.Client
 	pokemon.UnimplementedPokemonServiceServer
 }
 
-func NewPokemonService(pokemonCollection *mongo.Collection) *PokemonService {
+func NewPokemonService(pokemonCollection *mongo.Collection, redis *redis.Client) *PokemonService {
 	return &PokemonService{
 		pokemonCollection: pokemonCollection,
+		redisClient:       redis,
 	}
 }
 
@@ -32,7 +35,7 @@ func (p *PokemonService) GetAllPokemon(context context.Context, _ *emptypb.Empty
 	}
 	defer cur.Close(context)
 
-	results := make([]*pokemon.Pokemon, 0)
+	results := make([]*pokemon.PokemonSimple, 0)
 	if err = cur.All(context, &results); err != nil {
 		return nil, err
 	}
@@ -55,8 +58,6 @@ func (p *PokemonService) GetPokemon(context context.Context, request *pokemon.Ge
 }
 
 func (p *PokemonService) GetPokemonByType(context context.Context, request *pokemon.GetPokemonByTypeRequest) (*pokemon.PokemonList, error) {
-	pokemons := []*pokemon.Pokemon{}
-
 	searchArr := make(bson.A, 0)
 	for _, t := range request.Types {
 		searchArr = append(searchArr, t)
@@ -73,13 +74,13 @@ func (p *PokemonService) GetPokemonByType(context context.Context, request *poke
 	}
 	defer cursor.Close(context)
 
-	results := make([]*pokemon.Pokemon, 0)
+	results := make([]*pokemon.PokemonSimple, 0)
 	if err = cursor.All(context, &results); err != nil {
 		return nil, err
 	}
 	fmt.Printf("Found %d results\n", len(results))
 
-	return &pokemon.PokemonList{Pokemon: pokemons}, nil
+	return &pokemon.PokemonList{Pokemon: results}, nil
 }
 
 func (p *PokemonService) AddPokemon(context.Context, *pokemon.AddPokemonRequest) (*pokemon.Pokemon, error) {

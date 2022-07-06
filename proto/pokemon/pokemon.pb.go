@@ -921,18 +921,81 @@ func (x *Pokemon) GetSpecies() *Species {
 	return nil
 }
 
+type PokemonSimple struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id    int32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name  string  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Types []*Type `protobuf:"bytes,3,rep,name=types,proto3" json:"types,omitempty"`
+}
+
+func (x *PokemonSimple) Reset() {
+	*x = PokemonSimple{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pokemon_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PokemonSimple) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PokemonSimple) ProtoMessage() {}
+
+func (x *PokemonSimple) ProtoReflect() protoreflect.Message {
+	mi := &file_pokemon_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PokemonSimple.ProtoReflect.Descriptor instead.
+func (*PokemonSimple) Descriptor() ([]byte, []int) {
+	return file_pokemon_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *PokemonSimple) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *PokemonSimple) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PokemonSimple) GetTypes() []*Type {
+	if x != nil {
+		return x.Types
+	}
+	return nil
+}
+
 type PokemonList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Pokemon []*Pokemon `protobuf:"bytes,1,rep,name=pokemon,proto3" json:"pokemon,omitempty"`
+	Pokemon []*PokemonSimple `protobuf:"bytes,1,rep,name=pokemon,proto3" json:"pokemon,omitempty"`
 }
 
 func (x *PokemonList) Reset() {
 	*x = PokemonList{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pokemon_proto_msgTypes[12]
+		mi := &file_pokemon_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -945,7 +1008,7 @@ func (x *PokemonList) String() string {
 func (*PokemonList) ProtoMessage() {}
 
 func (x *PokemonList) ProtoReflect() protoreflect.Message {
-	mi := &file_pokemon_proto_msgTypes[12]
+	mi := &file_pokemon_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -958,10 +1021,10 @@ func (x *PokemonList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PokemonList.ProtoReflect.Descriptor instead.
 func (*PokemonList) Descriptor() ([]byte, []int) {
-	return file_pokemon_proto_rawDescGZIP(), []int{12}
+	return file_pokemon_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *PokemonList) GetPokemon() []*Pokemon {
+func (x *PokemonList) GetPokemon() []*PokemonSimple {
 	if x != nil {
 		return x.Pokemon
 	}
@@ -979,7 +1042,7 @@ type GetPokemonRequest struct {
 func (x *GetPokemonRequest) Reset() {
 	*x = GetPokemonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pokemon_proto_msgTypes[13]
+		mi := &file_pokemon_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -992,7 +1055,7 @@ func (x *GetPokemonRequest) String() string {
 func (*GetPokemonRequest) ProtoMessage() {}
 
 func (x *GetPokemonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pokemon_proto_msgTypes[13]
+	mi := &file_pokemon_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1005,7 +1068,7 @@ func (x *GetPokemonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPokemonRequest.ProtoReflect.Descriptor instead.
 func (*GetPokemonRequest) Descriptor() ([]byte, []int) {
-	return file_pokemon_proto_rawDescGZIP(), []int{13}
+	return file_pokemon_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetPokemonRequest) GetNumber() int32 {
@@ -1026,7 +1089,7 @@ type GetPokemonByTypeRequest struct {
 func (x *GetPokemonByTypeRequest) Reset() {
 	*x = GetPokemonByTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pokemon_proto_msgTypes[14]
+		mi := &file_pokemon_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1039,7 +1102,7 @@ func (x *GetPokemonByTypeRequest) String() string {
 func (*GetPokemonByTypeRequest) ProtoMessage() {}
 
 func (x *GetPokemonByTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pokemon_proto_msgTypes[14]
+	mi := &file_pokemon_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1052,7 +1115,7 @@ func (x *GetPokemonByTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPokemonByTypeRequest.ProtoReflect.Descriptor instead.
 func (*GetPokemonByTypeRequest) Descriptor() ([]byte, []int) {
-	return file_pokemon_proto_rawDescGZIP(), []int{14}
+	return file_pokemon_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetPokemonByTypeRequest) GetTypes() []string {
@@ -1073,7 +1136,7 @@ type DeletePokemonRequest struct {
 func (x *DeletePokemonRequest) Reset() {
 	*x = DeletePokemonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pokemon_proto_msgTypes[15]
+		mi := &file_pokemon_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1086,7 +1149,7 @@ func (x *DeletePokemonRequest) String() string {
 func (*DeletePokemonRequest) ProtoMessage() {}
 
 func (x *DeletePokemonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pokemon_proto_msgTypes[15]
+	mi := &file_pokemon_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1099,7 +1162,7 @@ func (x *DeletePokemonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePokemonRequest.ProtoReflect.Descriptor instead.
 func (*DeletePokemonRequest) Descriptor() ([]byte, []int) {
-	return file_pokemon_proto_rawDescGZIP(), []int{15}
+	return file_pokemon_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *DeletePokemonRequest) GetId() int32 {
@@ -1123,7 +1186,7 @@ type AddPokemonRequest struct {
 func (x *AddPokemonRequest) Reset() {
 	*x = AddPokemonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_pokemon_proto_msgTypes[16]
+		mi := &file_pokemon_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1136,7 +1199,7 @@ func (x *AddPokemonRequest) String() string {
 func (*AddPokemonRequest) ProtoMessage() {}
 
 func (x *AddPokemonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pokemon_proto_msgTypes[16]
+	mi := &file_pokemon_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1149,7 +1212,7 @@ func (x *AddPokemonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddPokemonRequest.ProtoReflect.Descriptor instead.
 func (*AddPokemonRequest) Descriptor() ([]byte, []int) {
-	return file_pokemon_proto_rawDescGZIP(), []int{16}
+	return file_pokemon_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *AddPokemonRequest) GetName() string {
@@ -1301,10 +1364,16 @@ var file_pokemon_proto_rawDesc = []byte{
 	0x52, 0x07, 0x73, 0x70, 0x72, 0x69, 0x74, 0x65, 0x73, 0x12, 0x2a, 0x0a, 0x07, 0x73, 0x70, 0x65,
 	0x63, 0x69, 0x65, 0x73, 0x18, 0x0f, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x6f, 0x6b,
 	0x65, 0x6d, 0x6f, 0x6e, 0x2e, 0x53, 0x70, 0x65, 0x63, 0x69, 0x65, 0x73, 0x52, 0x07, 0x73, 0x70,
-	0x65, 0x63, 0x69, 0x65, 0x73, 0x22, 0x39, 0x0a, 0x0b, 0x50, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e,
-	0x4c, 0x69, 0x73, 0x74, 0x12, 0x2a, 0x0a, 0x07, 0x70, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e, 0x18,
-	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e, 0x2e,
-	0x50, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e, 0x52, 0x07, 0x70, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e,
+	0x65, 0x63, 0x69, 0x65, 0x73, 0x22, 0x58, 0x0a, 0x0d, 0x50, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e,
+	0x53, 0x69, 0x6d, 0x70, 0x6c, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x23, 0x0a, 0x05, 0x74, 0x79,
+	0x70, 0x65, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x70, 0x6f, 0x6b, 0x65,
+	0x6d, 0x6f, 0x6e, 0x2e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x05, 0x74, 0x79, 0x70, 0x65, 0x73, 0x22,
+	0x3f, 0x0a, 0x0b, 0x50, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x30,
+	0x0a, 0x07, 0x70, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x16, 0x2e, 0x70, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e, 0x2e, 0x50, 0x6f, 0x6b, 0x65, 0x6d, 0x6f,
+	0x6e, 0x53, 0x69, 0x6d, 0x70, 0x6c, 0x65, 0x52, 0x07, 0x70, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e,
 	0x22, 0x2b, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x6b, 0x65, 0x6d, 0x6f, 0x6e, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x6e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x2f, 0x0a,
@@ -1364,7 +1433,7 @@ func file_pokemon_proto_rawDescGZIP() []byte {
 	return file_pokemon_proto_rawDescData
 }
 
-var file_pokemon_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_pokemon_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_pokemon_proto_goTypes = []interface{}{
 	(*Move)(nil),                    // 0: pokemon.Move
 	(*VersionGroupDetails)(nil),     // 1: pokemon.VersionGroupDetails
@@ -1378,12 +1447,13 @@ var file_pokemon_proto_goTypes = []interface{}{
 	(*Shape)(nil),                   // 9: pokemon.Shape
 	(*Species)(nil),                 // 10: pokemon.Species
 	(*Pokemon)(nil),                 // 11: pokemon.Pokemon
-	(*PokemonList)(nil),             // 12: pokemon.PokemonList
-	(*GetPokemonRequest)(nil),       // 13: pokemon.GetPokemonRequest
-	(*GetPokemonByTypeRequest)(nil), // 14: pokemon.GetPokemonByTypeRequest
-	(*DeletePokemonRequest)(nil),    // 15: pokemon.DeletePokemonRequest
-	(*AddPokemonRequest)(nil),       // 16: pokemon.AddPokemonRequest
-	(*emptypb.Empty)(nil),           // 17: google.protobuf.Empty
+	(*PokemonSimple)(nil),           // 12: pokemon.PokemonSimple
+	(*PokemonList)(nil),             // 13: pokemon.PokemonList
+	(*GetPokemonRequest)(nil),       // 14: pokemon.GetPokemonRequest
+	(*GetPokemonByTypeRequest)(nil), // 15: pokemon.GetPokemonByTypeRequest
+	(*DeletePokemonRequest)(nil),    // 16: pokemon.DeletePokemonRequest
+	(*AddPokemonRequest)(nil),       // 17: pokemon.AddPokemonRequest
+	(*emptypb.Empty)(nil),           // 18: google.protobuf.Empty
 }
 var file_pokemon_proto_depIdxs = []int32{
 	1,  // 0: pokemon.Move.versionGroupDetails:type_name -> pokemon.VersionGroupDetails
@@ -1397,24 +1467,25 @@ var file_pokemon_proto_depIdxs = []int32{
 	3,  // 8: pokemon.Pokemon.stats:type_name -> pokemon.Stat
 	5,  // 9: pokemon.Pokemon.sprites:type_name -> pokemon.Sprite
 	10, // 10: pokemon.Pokemon.species:type_name -> pokemon.Species
-	11, // 11: pokemon.PokemonList.pokemon:type_name -> pokemon.Pokemon
-	17, // 12: pokemon.PokemonService.GetAllPokemon:input_type -> google.protobuf.Empty
-	13, // 13: pokemon.PokemonService.GetPokemon:input_type -> pokemon.GetPokemonRequest
-	14, // 14: pokemon.PokemonService.GetPokemonByType:input_type -> pokemon.GetPokemonByTypeRequest
-	16, // 15: pokemon.PokemonService.AddPokemon:input_type -> pokemon.AddPokemonRequest
-	11, // 16: pokemon.PokemonService.UpdatePokemon:input_type -> pokemon.Pokemon
-	15, // 17: pokemon.PokemonService.DeletePokemon:input_type -> pokemon.DeletePokemonRequest
-	12, // 18: pokemon.PokemonService.GetAllPokemon:output_type -> pokemon.PokemonList
-	11, // 19: pokemon.PokemonService.GetPokemon:output_type -> pokemon.Pokemon
-	12, // 20: pokemon.PokemonService.GetPokemonByType:output_type -> pokemon.PokemonList
-	11, // 21: pokemon.PokemonService.AddPokemon:output_type -> pokemon.Pokemon
-	17, // 22: pokemon.PokemonService.UpdatePokemon:output_type -> google.protobuf.Empty
-	17, // 23: pokemon.PokemonService.DeletePokemon:output_type -> google.protobuf.Empty
-	18, // [18:24] is the sub-list for method output_type
-	12, // [12:18] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	4,  // 11: pokemon.PokemonSimple.types:type_name -> pokemon.Type
+	12, // 12: pokemon.PokemonList.pokemon:type_name -> pokemon.PokemonSimple
+	18, // 13: pokemon.PokemonService.GetAllPokemon:input_type -> google.protobuf.Empty
+	14, // 14: pokemon.PokemonService.GetPokemon:input_type -> pokemon.GetPokemonRequest
+	15, // 15: pokemon.PokemonService.GetPokemonByType:input_type -> pokemon.GetPokemonByTypeRequest
+	17, // 16: pokemon.PokemonService.AddPokemon:input_type -> pokemon.AddPokemonRequest
+	11, // 17: pokemon.PokemonService.UpdatePokemon:input_type -> pokemon.Pokemon
+	16, // 18: pokemon.PokemonService.DeletePokemon:input_type -> pokemon.DeletePokemonRequest
+	13, // 19: pokemon.PokemonService.GetAllPokemon:output_type -> pokemon.PokemonList
+	11, // 20: pokemon.PokemonService.GetPokemon:output_type -> pokemon.Pokemon
+	13, // 21: pokemon.PokemonService.GetPokemonByType:output_type -> pokemon.PokemonList
+	11, // 22: pokemon.PokemonService.AddPokemon:output_type -> pokemon.Pokemon
+	18, // 23: pokemon.PokemonService.UpdatePokemon:output_type -> google.protobuf.Empty
+	18, // 24: pokemon.PokemonService.DeletePokemon:output_type -> google.protobuf.Empty
+	19, // [19:25] is the sub-list for method output_type
+	13, // [13:19] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_pokemon_proto_init() }
@@ -1568,7 +1639,7 @@ func file_pokemon_proto_init() {
 			}
 		}
 		file_pokemon_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PokemonList); i {
+			switch v := v.(*PokemonSimple); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1580,7 +1651,7 @@ func file_pokemon_proto_init() {
 			}
 		}
 		file_pokemon_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetPokemonRequest); i {
+			switch v := v.(*PokemonList); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1592,7 +1663,7 @@ func file_pokemon_proto_init() {
 			}
 		}
 		file_pokemon_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetPokemonByTypeRequest); i {
+			switch v := v.(*GetPokemonRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1604,7 +1675,7 @@ func file_pokemon_proto_init() {
 			}
 		}
 		file_pokemon_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeletePokemonRequest); i {
+			switch v := v.(*GetPokemonByTypeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1616,6 +1687,18 @@ func file_pokemon_proto_init() {
 			}
 		}
 		file_pokemon_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeletePokemonRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pokemon_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AddPokemonRequest); i {
 			case 0:
 				return &v.state
@@ -1634,7 +1717,7 @@ func file_pokemon_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_pokemon_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

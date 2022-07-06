@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/bal3000/PokeCentre/proto/pokemon"
+	"github.com/bal3000/PokeCentre/services/common/data"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
@@ -30,6 +31,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
+	// mongo
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoUri))
 	if err != nil {
 		log.Fatalln("Failed to connect to mongo db:", err)
@@ -46,8 +48,15 @@ func main() {
 
 	col := client.Database("pokedex").Collection("pokemon")
 
+	// redis
+	rdb, err := data.CreateRedisClient("redis://default:redispw@localhost:49154")
+	if err != nil {
+		fmt.Println("problem parsing redis connection string:", err)
+		return
+	}
+
 	server := grpc.NewServer()
-	pokemonService := NewPokemonService(col)
+	pokemonService := NewPokemonService(col, rdb)
 
 	pokemon.RegisterPokemonServiceServer(server, pokemonService)
 

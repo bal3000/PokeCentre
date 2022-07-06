@@ -3,5 +3,6 @@ go 1.18
 use (
 	./api/poke-centre
 	./proto
+	./services/common
 	./services/pokemon
 )

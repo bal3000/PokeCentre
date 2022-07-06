@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/bal3000/PokeCentre/api/poke-centre/data"
 	"github.com/bal3000/PokeCentre/api/poke-centre/handlers"
 	"github.com/bal3000/PokeCentre/proto/pokemon"
 	"github.com/gin-gonic/gin"
@@ -38,15 +37,8 @@ func main() {
 	}
 	defer pokemonCloser()
 
-	// redis
-	rdb, err := data.CreateRedisClient("redis://default:redispw@localhost:49154")
-	if err != nil {
-		fmt.Println("problem parsing redis connection string:", err)
-		return
-	}
-
 	// route handler for all requests
-	handler := handlers.NewHandler(pokemonClient, rdb)
+	handler := handlers.NewHandler(pokemonClient)
 
 	p := router.Group("/pokemon")
 	{

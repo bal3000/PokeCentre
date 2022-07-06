@@ -95,8 +95,14 @@ message Pokemon {
     Species species = 15;
 }
 
+message PokemonSimple {
+    int32 id = 1;
+    string name = 2;
+    repeated Type types = 3;
+}
+
 message PokemonList {
-    repeated Pokemon pokemon = 1;
+    repeated PokemonSimple pokemon = 1;
 }
 
 message GetPokemonRequest {
