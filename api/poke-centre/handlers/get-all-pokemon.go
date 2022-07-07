@@ -12,7 +12,7 @@ import (
 )
 
 func (h *handler) GetAllPokemon(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(c.Request.Context(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 4*time.Second)
 	defer cancel()
 
 	maxSizeOption := grpc.MaxCallRecvMsgSize(32 * 10e6)

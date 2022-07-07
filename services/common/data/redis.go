@@ -3,8 +3,8 @@ package data
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/go-redis/redis/v9"
@@ -25,30 +25,39 @@ func CreateRedisClient(connectionString string) (*redis.Client, error) {
 	return rdb, nil
 }
 
-func GetOrSetValue[T RedisData](ctx context.Context, client *redis.Client, key string, notExistsFunc func() (T, error)) (T, error) {
+func GetAndSetValue[T any](ctx context.Context, client *redis.Client, key string, notExistsFunc func() (T, error)) (T, error) {
 	tctx, cancel := context.WithTimeout(ctx, 1*time.Second)
 	defer cancel()
 
 	val, err := client.Get(tctx, key).Result()
 	var result T
 	if err != nil {
-		if err == redis.Nil {
+		switch {
+		case errors.Is(err, context.DeadlineExceeded):
+		case errors.Is(err, redis.Nil):
 			value, err := notExistsFunc()
 			if err != nil {
 				return result, err
 			}
-			res, err := client.Set(ctx, key, value, 24*time.Hour).Result()
+
+			js, err := encodedToJSONString(value)
+			if err != nil {
+				return result, err
+			}
+
+			res, err := client.Set(ctx, key, js, 24*time.Hour).Result()
 			if err != nil {
 				return result, err
 			}
 			fmt.Println(res)
 			return value, nil
+		default:
+			return result, err
 		}
 
-		return result, err
 	}
 
-	err = convertRedisValToType(val, &result)
+	err = decodedToType(val, &result)
 	if err != nil {
 		return result, err
 	}
@@ -57,16 +66,20 @@ func GetOrSetValue[T RedisData](ctx context.Context, client *redis.Client, key s
 	return result, nil
 }
 
-func convertRedisValToType[T any](val string, dst T) error {
-	r := strings.NewReader(val)
-	dec := json.NewDecoder(r)
-	dec.DisallowUnknownFields()
-
-	err := dec.Decode(dst)
-
+func decodedToType[T any](val string, dst *T) error {
+	err := json.Unmarshal([]byte(val), dst)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func encodedToJSONString[T any](value T) (string, error) {
+	js, err := json.Marshal(value)
+	if err != nil {
+		return "", err
+	}
+
+	return string(js), nil
 }
