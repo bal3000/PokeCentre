@@ -65,17 +65,18 @@ func (p *PokemonService) GetAllPokemon(context context.Context, _ *emptypb.Empty
 func (p *PokemonService) GetPokemon(context context.Context, request *pokemon.GetPokemonRequest) (*pokemon.Pokemon, error) {
 	key := fmt.Sprintf("pokemon-details-%d", request.Number)
 	pokemon, err := data.GetAndSetValue(context, p.redisClient, key, func() (*pokemon.Pokemon, error) {
-		var pokemon *pokemon.Pokemon
-		err := p.pokemonCollection.FindOne(context, bson.D{{"id", request.Number}}).Decode(pokemon)
+		var pokemon pokemon.Pokemon
+		err := p.pokemonCollection.FindOne(context, bson.D{{"id", request.Number}}).Decode(&pokemon)
 		if err != nil {
 			return nil, err
 		}
-		return pokemon, nil
+		return &pokemon, nil
 	})
 
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("Found Pokemon: %d: %s\n", pokemon.Id, pokemon.Name)
 
 	return pokemon, nil
 }

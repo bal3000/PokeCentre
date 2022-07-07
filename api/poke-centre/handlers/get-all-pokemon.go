@@ -20,6 +20,7 @@ func (h *handler) GetAllPokemon(c *gin.Context) {
 	if err != nil {
 		fmt.Println("error occurred getting pokemon list:", err)
 		c.AbortWithStatus(http.StatusInternalServerError)
+		return
 	}
 
 	c.JSON(200, list.Pokemon)

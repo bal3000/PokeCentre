@@ -1,12 +1,36 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"time"
 
-func (app *handler) GetPokemonByType(c *gin.Context) {
+	"github.com/bal3000/PokeCentre/proto/pokemon"
+	"github.com/gin-gonic/gin"
+)
+
+func (h *handler) GetPokemonByType(c *gin.Context) {
 	var search struct {
-		Types []string
+		Types []string `json:"types"`
 	}
 
-	c.BindJSON(&search)
-	c.JSON(200, search)
+	err := c.BindJSON(&search)
+	if err != nil {
+		Validator.AddErrorMessage("Types")
+		c.AbortWithStatusJSON(http.StatusBadRequest, Validator)
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 4*time.Second)
+	defer cancel()
+
+	list, err := h.pokemonClient.GetPokemonByType(ctx, &pokemon.GetPokemonByTypeRequest{Types: search.Types})
+	if err != nil {
+		fmt.Println("error occurred getting pokemon list by type:", err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+
+	c.JSON(200, list.Pokemon)
 }
