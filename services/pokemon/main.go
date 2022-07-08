@@ -28,6 +28,11 @@ func main() {
 		log.Fatalln("Environment variable MONGODB_URI is missing")
 	}
 
+	redisUrl := os.Getenv("REDIS_URL")
+	if redisUrl == "" {
+		log.Fatalln("Environment variable REDIS_URL is missing")
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
@@ -49,7 +54,7 @@ func main() {
 	col := client.Database("pokedex").Collection("pokemon")
 
 	// redis
-	rdb, err := data.CreateRedisClient("redis://default:redispw@localhost:49154")
+	rdb, err := data.CreateRedisClient(redisUrl)
 	if err != nil {
 		fmt.Println("problem parsing redis connection string:", err)
 		return

@@ -15,7 +15,6 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
-// TODO add db model and call db from here
 type PokemonService struct {
 	mu                sync.Mutex
 	pokemonCollection *mongo.Collection
