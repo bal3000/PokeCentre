@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS treatments (
     notes TEXT NOT NULL,
     effective_types TEXT[] NOT NULL,
     avoid_types TEXT[] NOT NULL,
-    created_at DATETIME,
-    updated_at DATETIME
+    created_at timestamp(0) with time zone NOT NULL DEFAULT NOW(),
+    updated_at timestamp(0) with time zone NOT NULL DEFAULT NOW()
 );

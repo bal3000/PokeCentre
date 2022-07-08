@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS trainers (
   email TEXT NOT NULL,
   address TEXT NOT NULL,
   nhs_number TEXT NOT NULL,
-  created_at DATETIME,
-  updated_at DATETIME
+  created_at timestamp(0) with time zone NOT NULL DEFAULT NOW(),
+  updated_at timestamp(0) with time zone NOT NULL DEFAULT NOW()
 );

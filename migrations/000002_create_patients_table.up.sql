@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS patients (
     pokemon_id BIGINT NOT NULL,
     is_checked_in BOOLEAN NOT NULL DEFAULT false,
     ward TEXT NOT NULL,
-    created_at DATETIME,
-    updated_at DATETIME,
+    created_at timestamp(0) with time zone NOT NULL DEFAULT NOW(),
+    updated_at timestamp(0) with time zone NOT NULL DEFAULT NOW()
 );
