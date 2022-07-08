@@ -5,4 +5,5 @@ use (
 	./proto
 	./services/common
 	./services/pokemon
+	./services/trainers
 )
