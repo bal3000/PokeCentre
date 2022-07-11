@@ -2,34 +2,72 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"sync"
 
 	"github.com/bal3000/PokeCentre/proto/trainers"
-	"github.com/go-redis/redis/v9"
+	"github.com/bal3000/PokeCentre/services/trainers/data"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type TrainersService struct {
 	mu    sync.Mutex
-	db    *sql.DB
-	redis *redis.Client
+	model data.TrainersModeler
 	trainers.UnimplementedTrainersServiceServer
 }
 
-func NewTrainerService(db *sql.DB, redis *redis.Client) *TrainersService {
+func NewTrainerService(model data.TrainersModeler) *TrainersService {
 	return &TrainersService{
-		db:    db,
-		redis: redis,
+		model: model,
 	}
 }
 
 func (t *TrainersService) AddTrainer(ctx context.Context, request *trainers.AddTrainerRequest) (*trainers.AddTrainerResponse, error) {
-	return nil, nil
+	m := &data.Trainer{
+		Name:      request.Name,
+		Email:     request.Email,
+		Address:   request.Address,
+		Phone:     request.Phone,
+		NhsNumber: request.NhsNumber,
+	}
+
+	err := t.model.Insert(ctx, m)
+	if err != nil {
+		return nil, err
+	}
+
+	return &trainers.AddTrainerResponse{
+		Id:        m.ID,
+		Name:      m.Name,
+		Phone:     m.Phone,
+		Email:     m.Email,
+		Address:   m.Address,
+		NhsNumber: m.NhsNumber,
+		CreatedAt: timestamppb.New(m.CreatedAt),
+		UpdatedAt: timestamppb.New(m.UpdatedAt),
+	}, nil
 }
 
 func (t *TrainersService) UpdateTrainer(ctx context.Context, request *trainers.UpdateTrainerRequest) (*trainers.UpdateTrainerResponse, error) {
-	return nil, nil
+	m := &data.Trainer{
+		ID:        request.Id,
+		Name:      request.Name,
+		Email:     request.Email,
+		Address:   request.Address,
+		Phone:     request.Phone,
+		NhsNumber: request.NhsNumber,
+	}
+
+	err := t.model.Update(ctx, request.Id, m)
+	if err != nil {
+		return &trainers.UpdateTrainerResponse{
+			Success: false,
+		}, err
+	}
+
+	return &trainers.UpdateTrainerResponse{
+		Success: true,
+	}, nil
 }
 
 func (t *TrainersService) DeleteTrainer(ctx context.Context, request *trainers.DeleteTrainerRequest) (*trainers.DeleteTrainerResponse, error) {

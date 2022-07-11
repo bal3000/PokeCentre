@@ -7,7 +7,8 @@ import (
 	"os"
 
 	"github.com/bal3000/PokeCentre/proto/trainers"
-	"github.com/bal3000/PokeCentre/services/common/data"
+	common "github.com/bal3000/PokeCentre/services/common/data"
+	"github.com/bal3000/PokeCentre/services/trainers/data"
 	"google.golang.org/grpc"
 )
 
@@ -35,14 +36,16 @@ func main() {
 	// db
 
 	// redis
-	rdb, err := data.CreateRedisClient(redisUrl)
+	rdb, err := common.CreateRedisClient(redisUrl)
 	if err != nil {
 		fmt.Println("problem parsing redis connection string:", err)
 		return
 	}
 
+	model := data.NewTrainersModel(nil, rdb)
+
 	server := grpc.NewServer()
-	trainersService := NewTrainerService(nil, rdb)
+	trainersService := NewTrainerService(model)
 
 	trainers.RegisterTrainersServiceServer(server, trainersService)
 
