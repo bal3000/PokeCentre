@@ -31,10 +31,14 @@ func (t *TrainersService) AddTrainer(ctx context.Context, request *trainers.AddT
 		NhsNumber: request.NhsNumber,
 	}
 
+	t.mu.Lock()
+
 	err := t.model.Insert(ctx, m)
 	if err != nil {
 		return nil, err
 	}
+
+	t.mu.Unlock()
 
 	return &trainers.AddTrainerResponse{
 		Id:        m.ID,
@@ -58,6 +62,8 @@ func (t *TrainersService) UpdateTrainer(ctx context.Context, request *trainers.U
 		NhsNumber: request.NhsNumber,
 	}
 
+	t.mu.Lock()
+
 	err := t.model.Update(ctx, request.Id, m)
 	if err != nil {
 		return &trainers.UpdateTrainerResponse{
@@ -65,13 +71,25 @@ func (t *TrainersService) UpdateTrainer(ctx context.Context, request *trainers.U
 		}, err
 	}
 
+	t.mu.Unlock()
+
 	return &trainers.UpdateTrainerResponse{
 		Success: true,
 	}, nil
 }
 
 func (t *TrainersService) DeleteTrainer(ctx context.Context, request *trainers.DeleteTrainerRequest) (*trainers.DeleteTrainerResponse, error) {
-	return nil, nil
+	t.mu.Lock()
+	defer t.mu.Unlock()
+
+	err := t.model.Delete(ctx, request.Id)
+	if err != nil {
+		return &trainers.DeleteTrainerResponse{
+			Success: false,
+		}, err
+	}
+
+	return &trainers.DeleteTrainerResponse{Success: true}, nil
 }
 
 func (t *TrainersService) GetTrainer(ctx context.Context, request *trainers.GetTrainerRequest) (*trainers.GetTrainerResponse, error) {

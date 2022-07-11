@@ -29,6 +29,7 @@ type TrainersModel struct {
 type TrainersModeler interface {
 	Insert(context.Context, *Trainer) error
 	Update(parent context.Context, id int64, t *Trainer) error
+	Delete(parent context.Context, id int64) error
 }
 
 func NewTrainersModel(db *sql.DB, redis *redis.Client) TrainersModel {
@@ -79,6 +80,33 @@ func (m TrainersModel) Update(parent context.Context, id int64, t *Trainer) erro
 		default:
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m TrainersModel) Delete(parent context.Context, id int64) error {
+	query := sq.
+		Delete("trainers").
+		Where(sq.Eq{"id": id}).
+		RunWith(m.db).
+		PlaceholderFormat(sq.Dollar)
+
+	ctx, cancel := context.WithTimeout(parent, 3*time.Second)
+	defer cancel()
+
+	result, err := query.ExecContext(ctx)
+	if err != nil {
+		return err
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rows == 0 {
+		return errors.New("record not found")
 	}
 
 	return nil
