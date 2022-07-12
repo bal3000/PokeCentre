@@ -4,16 +4,21 @@ import (
 	"fmt"
 
 	"github.com/bal3000/PokeCentre/proto/pokemon"
+	"github.com/bal3000/PokeCentre/proto/trainers"
 )
 
 var Validator *ValidationError = &ValidationError{}
 
 type handler struct {
-	pokemonClient pokemon.PokemonServiceClient
+	pokemonClient  pokemon.PokemonServiceClient
+	trainersClient trainers.TrainersServiceClient
 }
 
-func NewHandler(pokemonClient pokemon.PokemonServiceClient) *handler {
-	return &handler{pokemonClient: pokemonClient}
+func NewHandler(pokemonClient pokemon.PokemonServiceClient, trainersClient trainers.TrainersServiceClient) *handler {
+	return &handler{
+		pokemonClient:  pokemonClient,
+		trainersClient: trainersClient,
+	}
 }
 
 type ValidationError struct {
