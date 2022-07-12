@@ -30,6 +30,8 @@ type TrainersModeler interface {
 	Insert(context.Context, *Trainer) error
 	Update(parent context.Context, id int64, t *Trainer) error
 	Delete(parent context.Context, id int64) error
+	Get(parent context.Context, id int64) (Trainer, error)
+	GetForPatient(parent context.Context, id int64) (Trainer, error)
 }
 
 func NewTrainersModel(db *sql.DB, redis *redis.Client) TrainersModel {
@@ -110,4 +112,29 @@ func (m TrainersModel) Delete(parent context.Context, id int64) error {
 	}
 
 	return nil
+}
+
+func (m TrainersModel) Get(parent context.Context, id int64) (Trainer, error) {
+	query := sq.
+		Select("*").
+		From("trainers").
+		Where(sq.Eq{"id": id}).
+		RunWith(m.db).
+		PlaceholderFormat(sq.Dollar)
+
+	trainer := Trainer{}
+	ctx, cancel := context.WithTimeout(parent, 3*time.Second)
+	defer cancel()
+
+	err := query.QueryRowContext(ctx).Scan(&trainer)
+	if err != nil {
+		return Trainer{}, err
+	}
+
+	return trainer, nil
+}
+
+func (m TrainersModel) GetForPatient(parent context.Context, id int64) (Trainer, error) {
+	//TODO
+	return Trainer{}, nil
 }

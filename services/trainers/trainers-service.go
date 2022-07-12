@@ -93,11 +93,39 @@ func (t *TrainersService) DeleteTrainer(ctx context.Context, request *trainers.D
 }
 
 func (t *TrainersService) GetTrainer(ctx context.Context, request *trainers.GetTrainerRequest) (*trainers.GetTrainerResponse, error) {
-	return nil, nil
+	trainer, err := t.model.Get(ctx, request.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &trainers.GetTrainerResponse{
+		Id:        trainer.ID,
+		Name:      trainer.Name,
+		Email:     trainer.Email,
+		Address:   trainer.Address,
+		Phone:     trainer.Phone,
+		NhsNumber: trainer.NhsNumber,
+		CreatedAt: timestamppb.New(trainer.CreatedAt),
+		UpdatedAt: timestamppb.New(trainer.UpdatedAt),
+	}, nil
 }
 
 func (t *TrainersService) GetTrainerForPatient(ctx context.Context, request *trainers.GetTrainerForPatientRequest) (*trainers.GetTrainerForPatientResponse, error) {
-	return nil, nil
+	trainer, err := t.model.GetForPatient(ctx, request.PatientId)
+	if err != nil {
+		return nil, err
+	}
+
+	return &trainers.GetTrainerForPatientResponse{
+		Id:        trainer.ID,
+		Name:      trainer.Name,
+		Email:     trainer.Email,
+		Address:   trainer.Address,
+		Phone:     trainer.Phone,
+		NhsNumber: trainer.NhsNumber,
+		CreatedAt: timestamppb.New(trainer.CreatedAt),
+		UpdatedAt: timestamppb.New(trainer.UpdatedAt),
+	}, nil
 }
 
 func (t *TrainersService) GetAllTrainers(_ *emptypb.Empty, service trainers.TrainersService_GetAllTrainersServer) error {
