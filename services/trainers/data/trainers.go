@@ -32,6 +32,7 @@ type TrainersModeler interface {
 	Delete(parent context.Context, id int64) error
 	Get(parent context.Context, id int64) (Trainer, error)
 	GetForPatient(parent context.Context, id int64) (Trainer, error)
+	GetAllTrainers(parent context.Context) ([]Trainer, error)
 }
 
 func NewTrainersModel(db *sql.DB, redis *redis.Client) TrainersModel {

@@ -129,5 +129,25 @@ func (t *TrainersService) GetTrainerForPatient(ctx context.Context, request *tra
 }
 
 func (t *TrainersService) GetAllTrainers(_ *emptypb.Empty, service trainers.TrainersService_GetAllTrainersServer) error {
+	trs, err := t.model.GetAllTrainers(service.Context())
+	if err != nil {
+		return err
+	}
+
+	for _, t := range trs {
+		if err = service.Send(&trainers.GetTrainerResponse{
+			Id:        t.ID,
+			Name:      t.Name,
+			Email:     t.Email,
+			Address:   t.Address,
+			Phone:     t.Phone,
+			NhsNumber: t.NhsNumber,
+			CreatedAt: timestamppb.New(t.CreatedAt),
+			UpdatedAt: timestamppb.New(t.UpdatedAt),
+		}); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
