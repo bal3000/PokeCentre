@@ -34,6 +34,17 @@ func main() {
 	// defer cancel()
 
 	// db
+	db, err := data.OpenDB(data.DbConfig{
+		DSN:          dbUrl,
+		MaxOpenConns: 25,
+		MaxIdleConns: 25,
+		MaxIdleTime:  "15m",
+	})
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer db.Close()
+	log.Println("database connection pool established")
 
 	// redis
 	rdb, err := common.CreateRedisClient(redisUrl)
@@ -42,7 +53,7 @@ func main() {
 		return
 	}
 
-	model := data.NewTrainersModel(nil, rdb)
+	model := data.NewTrainersModel(db, rdb)
 
 	server := grpc.NewServer()
 	trainersService := NewTrainerService(model)
