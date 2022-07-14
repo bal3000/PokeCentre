@@ -26,5 +26,5 @@ type ValidationError struct {
 }
 
 func (v *ValidationError) AddErrorMessage(param string) {
-	v.Errors = append(v.Errors, fmt.Sprintf("Please provide a valid %s", "number"))
+	v.Errors = append(v.Errors, fmt.Sprintf("Please provide a valid %s", param))
 }

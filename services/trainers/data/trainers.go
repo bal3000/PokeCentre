@@ -138,3 +138,43 @@ func (m TrainersModel) GetForPatient(parent context.Context, id int64) (Trainer,
 	//TODO
 	return Trainer{}, nil
 }
+
+func (m TrainersModel) GetAllTrainers(parent context.Context) ([]Trainer, error) {
+	query := sq.
+		Select("*").
+		From("trainers").
+		RunWith(m.db).
+		PlaceholderFormat(sq.Dollar)
+
+	trainers := make([]Trainer, 0)
+	ctx, cancel := context.WithTimeout(parent, 3*time.Second)
+	defer cancel()
+
+	rows, err := query.QueryContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var trainer Trainer
+
+		err := rows.Scan(
+			&trainer.ID,
+			&trainer.Name,
+			&trainer.Email,
+			&trainer.Address,
+			&trainer.NhsNumber,
+			&trainer.CreatedAt,
+			&trainer.UpdatedAt,
+			&trainer.Phone,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		trainers = append(trainers, trainer)
+	}
+
+	return trainers, nil
+}

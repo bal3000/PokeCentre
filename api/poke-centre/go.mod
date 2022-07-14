@@ -3,9 +3,9 @@ module github.com/bal3000/PokeCentre/api/poke-centre
 go 1.18
 
 require (
-	github.com/bal3000/PokeCentre/proto v0.0.0-20220706151345-052eb653bb4b
+	github.com/bal3000/PokeCentre/proto v0.0.0-20220712102733-e1e3e46f48aa
 	github.com/gin-gonic/gin v1.8.1
-	google.golang.org/grpc v1.47.0
+	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.0
 )
 
@@ -24,9 +24,9 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
-	golang.org/x/net v0.0.0-20220630215102-69896b714898 // indirect
-	golang.org/x/sys v0.0.0-20220704084225-05e143d24a9e // indirect
+	golang.org/x/net v0.0.0-20220708220712-1185a9018129 // indirect
+	golang.org/x/sys v0.0.0-20220712014510-0a85c31ab51e // indirect
 	golang.org/x/text v0.3.7 // indirect
-	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
+	google.golang.org/genproto v0.0.0-20220713161829-9c7dac0a6568 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
