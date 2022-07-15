@@ -7,3 +7,11 @@ type TrainerAddModel struct {
 	Phone     string `json:"phone"`
 	NhsNumber string `json:"nhsNumber"`
 }
+
+type TrainerUpdateModel struct {
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	Address   string `json:"address"`
+	Phone     string `json:"phone"`
+	NhsNumber string `json:"nhsNumber"`
+}

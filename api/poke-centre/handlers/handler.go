@@ -28,3 +28,23 @@ type ValidationError struct {
 func (v *ValidationError) AddErrorMessage(param string) {
 	v.Errors = append(v.Errors, fmt.Sprintf("Please provide a valid %s", param))
 }
+
+func validateTrainer(name, email, address, phone, nhsNumber string) bool {
+	if name == "" {
+		Validator.AddErrorMessage("name")
+	}
+	if email == "" {
+		Validator.AddErrorMessage("email")
+	}
+	if address == "" {
+		Validator.AddErrorMessage("address")
+	}
+	if phone == "" {
+		Validator.AddErrorMessage("phone")
+	}
+	if nhsNumber == "" {
+		Validator.AddErrorMessage("nhs number")
+	}
+
+	return len(Validator.Errors) == 0
+}

@@ -58,5 +58,5 @@ func (h *handler) AddTrainer(c *gin.Context) {
 		return
 	}
 
-	c.JSON(201, res)
+	c.JSON(http.StatusCreated, res)
 }
