@@ -68,7 +68,7 @@ func main() {
 	{
 		t.POST("/", handler.AddTrainer)
 		t.PUT("/:id", handler.UpdateTrainer)
-		t.DELETE("/:id")
+		t.DELETE("/:id", handler.DeleteTrainer)
 	}
 
 	router.Run(":3000")
