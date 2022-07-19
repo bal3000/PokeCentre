@@ -73,6 +73,7 @@ func (p *PokemonService) GetPokemon(context context.Context, request *pokemon.Ge
 	})
 
 	if err != nil {
+		fmt.Println("error:", err)
 		return nil, err
 	}
 	fmt.Printf("Found Pokemon: %d: %s\n", pokemon.Id, pokemon.Name)

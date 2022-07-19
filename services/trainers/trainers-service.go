@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"sync"
 
 	"github.com/bal3000/PokeCentre/proto/trainers"
@@ -32,13 +33,13 @@ func (t *TrainersService) AddTrainer(ctx context.Context, request *trainers.AddT
 	}
 
 	t.mu.Lock()
+	defer t.mu.Unlock()
 
 	err := t.model.Insert(ctx, m)
 	if err != nil {
+		fmt.Println("error:", err)
 		return nil, err
 	}
-
-	t.mu.Unlock()
 
 	return &trainers.AddTrainerResponse{
 		Id:        m.ID,
