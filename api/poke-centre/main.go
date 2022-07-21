@@ -66,6 +66,7 @@ func main() {
 
 	t := router.Group("/trainers")
 	{
+		t.GET("/", handler.GetAllTrainers)
 		t.POST("/", handler.AddTrainer)
 		t.PUT("/:id", handler.UpdateTrainer)
 		t.DELETE("/:id", handler.DeleteTrainer)
