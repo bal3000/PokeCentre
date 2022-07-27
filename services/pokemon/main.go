@@ -28,7 +28,7 @@ func createRedisUrl() string {
 		log.Fatalln("Environment variable REDIS_PORT is missing")
 	}
 
-	return fmt.Sprintf("%s:%s", redisUrl, redisPort)
+	return fmt.Sprintf("redis://%s:%s", redisUrl, redisPort)
 }
 
 func main() {

@@ -17,4 +17,6 @@ COPY . .
 
 RUN migrate -version
 
-CMD ["migrate", "-source", ".", "-database", "postgresql://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE?sslmode=disable", "up"]
+RUN echo "postgresql://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE?sslmode=disable"
+
+CMD ["migrate", "-source", "./", "-database", "postgresql://$PG_USER:$PG_PASSWORD@$PG_HOST:$PG_PORT/$PG_DATABASE?sslmode=disable", "up"]

@@ -20,6 +20,8 @@ spec:
       - name: postgres
         image: postgres
         env:
+        - name: POSTGRES_DB
+          value: pokecentre
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
