@@ -1,8 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/bal3000/PokeCentre/api/poke-centre/handlers"
 	"github.com/bal3000/PokeCentre/proto/pokemon"
@@ -11,8 +14,15 @@ import (
 	"google.golang.org/grpc"
 )
 
-func createPokemonClient(port string) (pokemon.PokemonServiceClient, func(), error) {
-	pokemonConn, err := grpc.Dial(port, grpc.WithInsecure())
+func createPokemonClient() (pokemon.PokemonServiceClient, func(), error) {
+	psUrl := os.Getenv("POKEMON_SERVER")
+	if psUrl == "" {
+		return nil, nil, errors.New("Environment variable POKEMON_SERVER is missing")
+	}
+
+	fmt.Printf("Connecting to %s\n", psUrl)
+
+	pokemonConn, err := grpc.Dial(psUrl, grpc.WithInsecure())
 	if err != nil {
 		return nil, nil, err
 	}
@@ -22,8 +32,15 @@ func createPokemonClient(port string) (pokemon.PokemonServiceClient, func(), err
 	}, nil
 }
 
-func createTrainersClient(port string) (trainers.TrainersServiceClient, func(), error) {
-	conn, err := grpc.Dial(port, grpc.WithInsecure())
+func createTrainersClient() (trainers.TrainersServiceClient, func(), error) {
+	tsUrl := os.Getenv("TRAINER_SERVER")
+	if tsUrl == "" {
+		return nil, nil, errors.New("Environment variable TRAINER_SERVER is missing")
+	}
+
+	fmt.Printf("Connecting to %s\n", tsUrl)
+
+	conn, err := grpc.Dial(tsUrl, grpc.WithInsecure())
 	if err != nil {
 		return nil, nil, err
 	}
@@ -40,17 +57,15 @@ func main() {
 	}))
 
 	// pokemon client
-	pokemonClient, pokemonCloser, err := createPokemonClient(":8080")
+	pokemonClient, pokemonCloser, err := createPokemonClient()
 	if err != nil {
-		fmt.Println("problem creating pokemon client:", err)
-		return
+		log.Fatalln("problem creating pokemon client:", err)
 	}
 	defer pokemonCloser()
 
-	trainersClient, trainersCloser, err := createTrainersClient(":8081")
+	trainersClient, trainersCloser, err := createTrainersClient()
 	if err != nil {
-		fmt.Println("problem creating trainers client:", err)
-		return
+		log.Fatalln("problem creating trainers client:", err)
 	}
 	defer trainersCloser()
 

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokecentre-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: pokecentre
+  template:
+    metadata:
+      labels:
+        component: pokecentre
+    spec:
+      containers:
+      - name: pokecentre
+        image: balbains2/pokecentre-api
+        ports:
+        - containerPort: 3000
+        env:
+          - name: POKEMON_SERVER
+            value: "pokemon-cluster-ip-service:5000"
+          - name: TRAINER_SERVER
+            value: "trainer-cluster-ip-service:5001"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pokecentre-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: pokecentre
+  ports:
+  - port: 3000
+    targetPort: 3000
