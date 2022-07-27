@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-migrations-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: database-migrations
+  template:
+    metadata:
+      labels:
+        component: database-migrations
+    spec:
+      containers:
+      - name: database-migrations
+        image: balbains2/pokecentre-database-migrations
+        ports:
+        - containerPort: 8000
+        env:
+          - name: PG_USER
+            value: postgres
+          - name: PG_HOST
+            value: postgress-cluster-ip-service
+          - name: PG_PORT
+            value: "5432"
+          - name: PG_DATABASE
+            value: pokecentre
+          - name: PG_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pgpassword
+                key: PGPASSWORD
