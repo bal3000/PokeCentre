@@ -16,21 +16,23 @@ spec:
       - name: trainer
         image: balbains2/pokecentre-trainers
         ports:
-        - containerPort: 5000
+        - containerPort: 5001
         env:
+          - name: PORT
+            value: "5001"
           - name: REDIS_HOST
             value: redis-cluster-ip-service
           - name: REDIS_PORT
             value: "6379"
-          - name: PGUSER
+          - name: PG_USER
             value: postgres
-          - name: PGHOST
+          - name: PG_HOST
             value: postgress-cluster-ip-service
-          - name: PGPORT
+          - name: PG_PORT
             value: "5432"
-          - name: PGDATABASE
+          - name: PG_DATABASE
             value: postrgres
-          - name: PGPASSWORD
+          - name: PG_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: pgpassword
@@ -45,5 +47,5 @@ spec:
   selector:
     component: trainer
   ports:
-  - port: 5000
-    targetPort: 5000
+  - port: 5001
+    targetPort: 5001

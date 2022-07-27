@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: pokemon
+  template:
+    metadata:
+      labels:
+        component: pokemon
+    spec:
+      containers:
+      - name: pokemon
+        image: balbains2/pokecentre-pokemon
+        ports:
+        - containerPort: 5000
+        env:
+          - name: PORT
+            value: "5000"
+          - name: REDIS_HOST
+            value: redis-cluster-ip-service
+          - name: REDIS_PORT
+            value: "6379"
+          - name: MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: mongodb
+                key: MONGODBURI
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pokemon-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: pokemon
+  ports:
+  - port: 5000
+    targetPort: 5000

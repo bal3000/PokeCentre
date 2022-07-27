@@ -17,6 +17,20 @@ import (
 
 var port = ":8080"
 
+func createRedisUrl() string {
+	redisUrl := os.Getenv("REDIS_HOST")
+	if redisUrl == "" {
+		log.Fatalln("Environment variable REDIS_HOST is missing")
+	}
+
+	redisPort := os.Getenv("REDIS_PORT")
+	if redisUrl == "" {
+		log.Fatalln("Environment variable REDIS_PORT is missing")
+	}
+
+	return fmt.Sprintf("%s:%s", redisUrl, redisPort)
+}
+
 func main() {
 	p := os.Getenv("PORT")
 	if p != "" {
@@ -28,10 +42,7 @@ func main() {
 		log.Fatalln("Environment variable MONGODB_URI is missing")
 	}
 
-	redisUrl := os.Getenv("REDIS_URL")
-	if redisUrl == "" {
-		log.Fatalln("Environment variable REDIS_URL is missing")
-	}
+	redisUrl := createRedisUrl()
 
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
